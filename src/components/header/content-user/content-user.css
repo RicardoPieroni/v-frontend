@@ -37,4 +37,8 @@
     display: none;
     top: 40px;
     border: 1px solid #e6ffe6;
+    position: absolute;
+    z-index: 99;
+    width: 15%;
+    margin-left: -2em;
 }
