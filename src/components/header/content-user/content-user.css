@@ -1,0 +1,40 @@
+.user-title {
+    cursor: pointer;
+}
+
+.arrow-down-options, .arrow-up-options {
+    width: 0;
+    height: 0;
+    position: absolute;
+    margin: 8px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #4d4d33;
+}
+
+.arrow-up-options {
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: none;
+    border-bottom: 8px solid #4d4d33;
+}
+
+.link-box-options {
+    text-decoration: none;
+    color: #4d4d33;
+}
+
+.link-box-options:hover {
+   color: #1ABC9C;
+}
+
+.list-box-options {
+    list-style-type: none;
+}
+
+.box-options {
+    background-color: #FFF;
+    display: none;
+    top: 40px;
+    border: 1px solid #e6ffe6;
+}

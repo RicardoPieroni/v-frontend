@@ -1,0 +1,14 @@
+header {
+    font-family: fa5-proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    height: 4em;
+    background-color: #1ABC9C;
+    color: white;
+}
+
+.header-container {
+    padding-top: 1em;
+}
+
+header > a {
+    text-decoration: none;
+}
