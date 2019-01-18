@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UserList from '../user-list';
+import { Link } from 'react-router-dom';
 import './home.css';
 
 class Home extends Component {
@@ -8,20 +8,17 @@ class Home extends Component {
             <main>
                 <div className="grid-container grid-parent grid-100 home-container">
                     <div className="grid-100 icon-container">
-                        <div className="grid-25">
-                            <i className="fas fa-puzzle-piece fa-5x"></i>
+                        <div className="grid-50">
+                            <Link to="/users" className="link-users">
+                                <i className="fas fa-users fa-5x"></i>
+                            </Link> 
                         </div>
-                        <div className="grid-25">
-                            <i className="fas fa-trophy fa-5x"></i>
-                        </div>
-                        <div className="grid-25">
-                            <i className="fas fa-route fa-5x"></i>
-                        </div>
-                        <div className="grid-25">
-                            <i className="fab fa-nutritionix fa-5x"></i>
+                        <div className="grid-50">
+                            <Link to="/users/new" className="link-users">
+                                <i className="fas fa-user-plus fa-5x"></i>
+                            </Link> 
                         </div>
                     </div>
-                    <UserList />
                 </div>
             </main>
         );

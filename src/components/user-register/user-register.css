@@ -1,0 +1,30 @@
+.user-register-container {
+    margin-top: 1em;
+}
+
+.container {
+    padding: 16px;
+}
+
+input[type=text], input[type=password], input[type=email] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.btn-discard {
+    background-color: #f1f3f5;
+    color: #1ABC9C;
+}
+
+input[type=radio] {
+    padding: 13px 20px;
+    margin: 8px 0;
+}
+
+.day-week-container {
+    margin-top: 2em;
+}

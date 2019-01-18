@@ -1,3 +1,7 @@
-.user-list-container {
+.user-list-container, .data-table-container {
     margin-top: 1em;
+}
+
+.sc-kAzzGY{
+    display: none !important;
 }
