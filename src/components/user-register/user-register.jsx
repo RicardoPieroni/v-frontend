@@ -20,7 +20,27 @@ class UserRegister extends Component {
             email: '',
             daysWeek: [],
             rideInGroup: '',
+            userId: undefined,
         };
+    }
+
+    componentWillMount() {
+        const { userId } = this.props.match.params;
+        if (userId) {
+            this.service.retrieveUserById(userId)
+            .then((result) => {
+                this.setState({
+                    userId,
+                    username: result.username,
+                    name: result.name,
+                    city: result.city,
+                    email: result.email,
+                    rideInGroup: result.rideInGroup,
+                    daysWeek: result.daysWeek,
+                });
+            })
+            
+        }
     }
 
     _onSaveClicked(e) {
@@ -28,23 +48,46 @@ class UserRegister extends Component {
 
         const { name, username, email, city, rideInGroup, daysWeek } = this.state;
 
-        if (name && username && email ) {
-            this.service.createUser({
+        if (name && username && email && !this.state.userId) {
+            return this.service.createUser({
                 name,
                 email,
                 username,
                 daysWeek,
                 rideInGroup,
                 city,
-            });
-            this.setState({
-                name: '',
-                email: '',
-                username: '',
-                daysWeek: [],
-                rideInGroup: '',
-                city:'',
             })
+            .then(() => {
+                this.setState({
+                    name: '',
+                    email: '',
+                    username: '',
+                    daysWeek: [],
+                    rideInGroup: '',
+                    city:'',
+                    userId: undefined,
+                });
+            }); 
+        } else if (name && username && email){
+            return this.service.updateUser({
+                name,
+                email,
+                username,
+                daysWeek,
+                rideInGroup,
+                city,
+                _id: this.state.userId,
+            })
+            .then(() => this.service.retrieveUserById(this.state.userId))
+            .then((result) =>
+                this.setState({
+                    username: result.username,
+                    name: result.name,
+                    city: result.city,
+                    email: result.email,
+                    rideInGroup: result.rideInGroup,
+                    daysWeek: result.daysWeek,
+            }));
         }
     }
 
@@ -191,7 +234,8 @@ class UserRegister extends Component {
                                 <label >Days on the week</label>
                             </div>
                             <div className="grid-15">
-                                <input type="checkbox" name="sunday" value="sunday" 
+                                <input type="checkbox" name="sunday" value="sunday"
+                                checked={this.state.daysWeek.find((item) => item === 'sunday') === 'sunday'}
                                 onChange={(e) => this._onDayWeekChanged(e)}
                                 />
                                 <label >Sun</label>   

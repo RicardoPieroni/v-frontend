@@ -16,7 +16,7 @@ const Routes = () => (
                 <Route exact path='/' component={Home}/>
                 <Route exact path='/home' component={Home}/>
                 <Route exact path='/users' component={UserList}/>
-                <Route exact path='/users/new' component={UserRegister}/>
+                <Route exact path='/users/new/:userId?' component={UserRegister}/>
             </Switch>
         </div>
     </BrowserRouter>

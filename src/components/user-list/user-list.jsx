@@ -16,6 +16,7 @@ class UserList extends Component {
         this.service = serviceHandle.retrieveService();
         this.deleteOne = this._deleteOne.bind(this);
         this.onConfirmClicked = this._onConfirmClicked.bind(this);
+        this.onRowClicked = this._onRowCLicked.bind(this);
         this.state = {
             dataRows : [],
             selectedRows: [],
@@ -52,7 +53,7 @@ class UserList extends Component {
             },
             {
                 name: 'Day of the week',
-                selector: 'dayWeek',
+                selector: 'daysWeek',
                 sortable: true,
             },
             {
@@ -79,13 +80,15 @@ class UserList extends Component {
     }
 
     _onConfirmClicked() {
-        this.service.deleteUser(this.state.row);
-        const data = this.service.retrieveAllUsers();
-        this.setState({
-            dataRows: data,
+        return this.service.deleteUser(this.state.row)
+            .then(() => this.service.retrieveAllUsers())
+            .then((result) => {
+                this.setState({
+                    dataRows: result,
+                });
+                $('body').removeClass('modal-opened');
+                $('.modal-delete-user').removeClass('modal-visible');
         });
-        $('body').removeClass('modal-opened');
-        $('.modal-delete-user').removeClass('modal-visible');
     }
 
     componentWillReceiveProps() {
@@ -97,10 +100,19 @@ class UserList extends Component {
     }
 
     renderRows() {
-        const data = this.service.retrieveAllUsers();
-        this.setState({
-            dataRows: data,
+        return this.service.retrieveAllUsers()
+            .then((result) => {
+                this.setState({
+                    dataRows: result,
+                });
         });
+        
+    }
+
+    _onRowCLicked(row) {
+        if (row && row._id) {
+            this.props.history.push(`/users/new/${row._id}`);
+        }
     }
 
 
@@ -115,6 +127,7 @@ class UserList extends Component {
                         columns={this.columns}
                         pagination
                         data={this.state.dataRows}
+                        onRowClicked={(row) => this._onRowCLicked(row)}
                     />
                 </div>
                  <DeleteUserModal onConfirmClicked={this.onConfirmClicked}/>
