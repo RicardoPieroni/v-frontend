@@ -115,7 +115,31 @@ class UserRegister extends Component {
     }
 
     _onDiscardClicked() {
-
+        if (this.state.userId) {
+            this.service.retrieveUserById(this.state.userId)
+            .then((result) => {
+                this.setState({
+                    userId: this.state.userId,
+                    username: result.username,
+                    name: result.name,
+                    city: result.city,
+                    email: result.email,
+                    rideInGroup: result.rideInGroup,
+                    daysWeek: result.daysWeek,
+                });
+            })
+        } else {
+            this.setState({
+                name: '',
+                email: '',
+                username: '',
+                daysWeek: [],
+                rideInGroup: '',
+                city:'',
+                userId: undefined,
+            });
+        }
+        
     }
 
     _onUsernameChanged() {
@@ -210,7 +234,7 @@ class UserRegister extends Component {
                                 </button>
                             </div>
                             <div className="grid-50">
-                                <button className="btn-discard" onClick={this.onDiscardClicked}> 
+                                <button className="btn-discard" type="button" onClick={this.onDiscardClicked}> 
                                     <i className="fas fa-ban"></i> Discard 
                                 </button>
                             </div>
