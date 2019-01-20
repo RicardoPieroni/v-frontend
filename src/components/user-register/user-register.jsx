@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import TabHeader from './tab-header';
 import serviceHandle from '../../services/service-handle';
+import ReactNotification from "react-notifications-component";
 
 
+import "react-notifications-component/dist/theme.css";
 import './user-register.css';
 
 class UserRegister extends Component {
@@ -12,6 +14,9 @@ class UserRegister extends Component {
         this.onSaveClicked = this._onSaveClicked.bind(this);
         this.onDiscardClicked = this._onDiscardClicked.bind(this);
         this.service = serviceHandle.retrieveService();
+
+        this.addNotification = this.addNotification.bind(this);
+        this.notificationDOMRef = React.createRef();
 
         this.state = {
             username: '',
@@ -43,6 +48,20 @@ class UserRegister extends Component {
         }
     }
 
+    addNotification(type, message) {
+        this.notificationDOMRef.current.addNotification({
+          title: "Info",
+          message,
+          type,
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: { duration: 3000 },
+          dismissable: { click: true }
+        });
+    }
+
     _onSaveClicked(e) {
         e.preventDefault();
 
@@ -67,7 +86,9 @@ class UserRegister extends Component {
                     city:'',
                     userId: undefined,
                 });
+                this.addNotification('success', 'User was created!');
             }); 
+            
         } else if (name && username && email){
             return this.service.updateUser({
                 name,
@@ -79,7 +100,7 @@ class UserRegister extends Component {
                 _id: this.state.userId,
             })
             .then(() => this.service.retrieveUserById(this.state.userId))
-            .then((result) =>
+            .then((result) => {
                 this.setState({
                     username: result.username,
                     name: result.name,
@@ -87,7 +108,9 @@ class UserRegister extends Component {
                     email: result.email,
                     rideInGroup: result.rideInGroup,
                     daysWeek: result.daysWeek,
-            }));
+                });
+                this.addNotification('success', 'User was updated!');
+            });
         }
     }
 
@@ -147,7 +170,8 @@ class UserRegister extends Component {
         return(
             <div className="grid-container grid-parent grid-100 user-register-container">
                 <TabHeader/>
-                <form className="form-user-register">
+                <ReactNotification ref={this.notificationDOMRef} />
+                <form className="form-user-register" onSubmit={this.onSaveClicked}>
                     <div className="grid-100">
                         <div className="grid-50">
                             <div className="container grid-100">
@@ -155,6 +179,7 @@ class UserRegister extends Component {
                                 <input type="text"
                                     placeholder="Enter Username"
                                     name="username"
+                                    required
                                     value={this.state.username} id="username"
                                     ref={c => this.usernameField = c} 
                                     onChange={() => this._onUsernameChanged()}
@@ -163,7 +188,7 @@ class UserRegister extends Component {
                             <div className="container grid-100">
                                 <label >Name</label>
                                 <input type="text" placeholder="Enter Name"
-                                name="name"
+                                    name="name" required
                                     value={this.state.name} id="name" 
                                     ref={c => this.nameField = c}
                                     onChange={() => this._onNameChanged()}
@@ -172,14 +197,15 @@ class UserRegister extends Component {
                             <div className="container grid-100">
                                 <label >E-mail</label>
                                 <input type="email" placeholder="Enter e-mail"
-                                name="email"
+                                    name="email"
+                                    required
                                     value={this.state.email} id="email"
                                     ref={c => this.emailField = c}
                                     onChange={() => this._onEmailChanged()}
                                 />
                             </div>
                             <div className="grid-50">
-                                <button className="btn"onClick={this.onSaveClicked} > 
+                                <button className="btn" type="submit" > 
                                     <i className="fas fa-save"></i> Save 
                                 </button>
                             </div>
