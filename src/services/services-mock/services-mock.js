@@ -33,6 +33,10 @@ class ServicesMock {
        return this.data;
     }
 
+    retrieveUserById(id) {
+        return this.data.find((item) => item._id === id);
+    }
+
     /**
      * 
      * @param {*} userTO 
@@ -50,6 +54,10 @@ class ServicesMock {
      */
     createUser(userTO) {
         this.data.push(userTO);
+    }
+
+    updateUser(userTO) {
+        return userTO;
     }
 }
 

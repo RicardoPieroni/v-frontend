@@ -10,11 +10,11 @@ class Home extends Component {
                     <div className="grid-100 icon-container">
                         <div className="grid-50">
                             <Link to="/users" className="link-users">
-                                <i className="fas fa-users fa-5x"></i>
+                                <i className="fas fa-users fa-5x" title="User list"></i>
                             </Link> 
                         </div>
                         <div className="grid-50">
-                            <Link to="/users/new" className="link-users">
+                            <Link to="/users/new" className="link-users" title="New user">
                                 <i className="fas fa-user-plus fa-5x"></i>
                             </Link> 
                         </div>
